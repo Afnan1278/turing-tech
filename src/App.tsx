@@ -14,7 +14,7 @@ import WithClearCache from './WithClearCache';
 
 import {Provider} from 'react-redux';
 import store from './store';
-
+ 
 
 let theme = createTheme({
   spacing: 4, 
