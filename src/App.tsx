@@ -14,6 +14,8 @@ import WithClearCache from './WithClearCache';
 
 import {Provider} from 'react-redux';
 import store from './store';
+import SnakAlert from './components/SnakAlert';
+import ConfirmationDialog from './components/ConfirmationDialog';
  
 
 let theme = createTheme({
@@ -37,6 +39,8 @@ function App() {
             </Router>
           </AppInitializer>   
         </Provider> 
+        <SnakAlert/>
+        <ConfirmationDialog/>
         </ThemeProvider>
 
     </div>

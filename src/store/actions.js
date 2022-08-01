@@ -5,10 +5,10 @@ export const login = content => {
     return {
         type:LOGIN,
         payload:{
-            user:content,
-            isLogin: content.token!=null,
-            init:true,
-            currentApp:content.settings.currentApp }
+            user:content.user,
+            isLogin: content.access_token!=null,
+            access_token:content.access_token,
+            init:true,}
     }   
 }
 

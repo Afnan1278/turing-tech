@@ -16,28 +16,38 @@ const AppInitializer = (props:any)=>{
     const verifyToken = async()=>{
         
         let authSession:any = localStorage.getItem('auth');
-        let user = {};
         if(authSession){
             authSession = JSON.parse(authSession);
-            user = {token:authSession.token,UserID:authSession.UserID};
         }
-        let res:any = await auth.verifyToken(user);
-        if(res.success && res.data){
+        await updateToken()
+        let res:any = await auth.verifyMe();
+        if(!res.error && res.data){
             // dispath login
-            dispatch(login(res.data));
+            dispatch(login({access_token:authSession.access_token,isLogin:true,init:true,user:res.data}));
         }else{
             dispatch(logout());
         }
     }
 
     document.body.classList.add(`theme-${theme?theme:'bp'}`)
+    const updateToken = async()=>{
+        let res:any = await auth.updateToken();
+        if(!res.error && res.data){
+            dispatch(login(res.data));
+        }else{
+            dispatch(logout());
+        }
 
+    }
     useEffect(()=>{
         if(!isLogin){
             verifyToken();   
            
         }
-        return ()=>{    }
+        const intervalId = setInterval(() => {
+            updateToken()
+          }, 540000) 
+          return () => clearInterval(intervalId) //cleanup
     },[isLogin])
 
 

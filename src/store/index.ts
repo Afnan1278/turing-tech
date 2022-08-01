@@ -3,23 +3,22 @@ import { createStore } from "redux";
 
 // initial store
 type user = {
-    token: string | null,
     id: string | null,
-    email: string | null,
-    role: string | null,
-    name: string | null,
+    username: string | null,
 }
 
 type initState = {
     init: boolean, // first time loading 
     isLogin: boolean,
     user: user | null,
+    access_token: string | null
 }
 
 const initialState: initState = {
+    access_token: null,
     init: false,
     isLogin: false,
-    user: { token: null, id: null, email: null, role: null, name: null },
+    user: { id: null, username: null },
 }
 
 const reducer = (state: initState = initialState, action: any) => {

@@ -1,6 +1,6 @@
 const axios = require("axios");
-axios.defaults.withCredentials = true;
-const API_ENDPOINT = 'http://localhost:3000/api';
+// axios.defaults.withCredentials = true;
+const API_ENDPOINT = (process.env.REACT_APP_API_ENDPOINT ? process.env.REACT_APP_API_ENDPOINT : '')
 
 const client = {
   get: async (url: string, params: any) => {
@@ -8,11 +8,11 @@ const client = {
       let token = client.getAuth();
       let response = await axios.get(`${API_ENDPOINT}${url}`, {
         params: params,
-        headers: { "x-token": `Bearer ${token}` },
+        headers: { "Authorization": `Bearer ${token}` },
       });
       return {
         error: false,
-        ...response.data,
+        ...response,
       };
     } catch (error: any) {
       window.snakAlert.error(error.toString());
@@ -27,7 +27,7 @@ const client = {
       //console.log(`${API_ENDPOINT}${url}`)
       let token = client.getAuth();
       let response = await axios.get(`${API_ENDPOINT}${url}`, {
-        headers: { "x-token": `Bearer ${token}` },
+        headers: { "Authorization": `Bearer ${token}` },
       });
       return {
         error: false,
@@ -45,11 +45,11 @@ const client = {
     try {
       let token = client.getAuth();
       let response = await axios.post(`${API_ENDPOINT}${url}`, params, {
-        headers: { "x-token": `Bearer ${token}` },
+        headers: { "Authorization": `Bearer ${token}` },
       });
       return {
         error: false,
-        ...response.data,
+        ...response,
       };
     } catch (error: any) {
       window.snakAlert.error(error.toString());
@@ -63,13 +63,15 @@ const client = {
     try {
       let token = client.getAuth();
       let response = await axios.put(`${API_ENDPOINT}${url}`, params, {
-        headers: { "x-token": `Bearer ${token}` },
+        headers: { "Authorization": `Bearer ${token}` },
       });
       return {
         error: false,
-        ...response.data,
+        ...response,
       };
     } catch (error: any) {
+      window.snakAlert.error(error.toString());
+
       return {
         error: true,
         message: error.toString(),
@@ -81,13 +83,15 @@ const client = {
       let token = client.getAuth();
       let response = await axios.delete(`${API_ENDPOINT}${url}`, {
         data: params,
-        headers: { "x-token": `Bearer ${token}` },
+        headers: { "Authorization": `Bearer ${token}` },
       });
       return {
         error: false,
-        ...response.data,
+        ...response,
       };
     } catch (error: any) {
+      window.snakAlert.error(error.toString());
+
       return {
         error: true,
         message: error.toString(),
@@ -102,15 +106,17 @@ const client = {
       let token = client.getAuth();
       let response = await axios.put(`${API_ENDPOINT}/upload`, form, {
         headers: {
-          "x-token": `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "content-type": "multipart/form-data; ",
         },
       });
       return {
         error: false,
-        ...response.data,
+        ...response,
       };
     } catch (error: any) {
+      window.snakAlert.error(error.toString());
+
       return {
         error: true,
         message: error.toString(),
@@ -121,7 +127,7 @@ const client = {
     let auth: any = window.localStorage.getItem("auth");
     if (auth) {
       auth = JSON.parse(auth);
-      return auth.token;
+      return auth.access_token;
     }
   },
 };

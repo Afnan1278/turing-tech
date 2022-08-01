@@ -8,7 +8,7 @@ const Footer:React.FC = ()=>{
         <>
      
                 <div >
-                    <h1> NEw Footer</h1>
+                    {/* <h1>Footer</h1> */}
                 </div>
          
         </>
